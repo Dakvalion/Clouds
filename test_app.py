@@ -18,3 +18,14 @@ def test_data_page(client):
     response = client.get('/data')
     assert response.status_code == 200
     assert b'This is some data!' in response.data
+
+
+def test_cache(client):
+    response1 = client.get('/data')
+    response2 = client.get('/data')
+    assert response1.data == response2.data
+
+
+def test_404(client):
+    response = client.get('/non_existent_route')
+    assert response.status_code == 404
